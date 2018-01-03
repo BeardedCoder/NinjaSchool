@@ -1,0 +1,33 @@
+{
+  "skillManifest": {
+    "publishingInformation": {
+      "locales": {
+        "en-US": {
+          "summary": "Train yourself to become a skilled ninja master!",
+          "examplePhrases": [
+            "Alexa open ninja school",
+            "Alexa start ninja school"
+          ],
+          "name": "Ninja School",
+          "smallIconUri": "https://s3.amazonaws.com/ninja-school/ninjaSchoolIconSmall.png",
+          "largeIconUri": "https://s3.amazonaws.com/ninja-school/ninjaSchoolIcon.png",
+          "description": "Train yourself to become a skilled ninja master!"
+        }
+      },
+      "isAvailableWorldwide": true,
+      "testingInstructions": "Sample Testing Instructions.",
+      "category": "CHILDRENS_GAMES",
+      "distributionCountries": [
+        "US"
+      ]
+    },
+    "apis": {
+      "custom": {
+        "endpoint": {
+          "sourceDir": "lambda/custom"
+        }
+      }
+    },
+    "manifestVersion": "1.0"
+  }
+}

@@ -1,0 +1,6 @@
+LaunchRequest
+MyNameIsIntent name=Bob
+TrainingIntent
+CompleteIntent
+FailedIntent
+AMAZON.StopIntent

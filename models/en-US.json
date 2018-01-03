@@ -1,0 +1,72 @@
+{
+    "interactionModel":{
+        "languageModel":{
+            "invocationName":"ninja school",
+            "types":[],
+            "intents":[
+                {
+                    "name": "AMAZON.CancelIntent",
+                    "samples": []
+                },
+                {
+                    "name": "AMAZON.HelpIntent",
+                    "samples": []
+                },
+                {
+                    "name": "AMAZON.StopIntent",
+                    "samples": []
+                },
+                {
+                    "name": "NewGameIntent",
+                    "samples": [
+                        "start",
+                        "start training",
+                        "let's play a game",
+                        "start over",
+                        "let's start training",
+                        "start again",
+                        "restart"
+                    ]
+                },
+                {
+                    "name":"MyNameIsIntent",
+                    "slots":[
+                        {
+                            "name":"name",
+                            "type":"AMAZON.US_FIRST_NAME"
+                        }
+                    ],
+                    "samples":[
+                        "{name}",
+                        "my name is {name}",
+                        "i am {name}",
+                        "you can call me {name}"
+                    ]
+                },
+                {
+                    "name":"TrainingIntent",
+                    "samples": [
+                        "begin training",
+                        "begin"
+                    ]
+                },
+                {
+                    "name": "CompleteIntent",
+                    "samples": [
+                        "yes",
+                        "yeah",
+                        "I finished"
+                    ]
+                },
+                {
+                    "name": "FailedIntent",
+                    "samples": [
+                        "no",
+                        "nope",
+                        "I did not"
+                    ]
+                }
+            ]
+        }
+    }
+}
