@@ -1,6 +1,6 @@
 LaunchRequest
 MyNameIsIntent name=Bob
 TrainingIntent
-CompleteIntent
-FailedIntent
+AMAZON.YesIntent
+AMAZON.NoIntent
 AMAZON.StopIntent

@@ -6,99 +6,130 @@ const helpers = require('./helpers.js');
 
 exports.handler = function(event, context) {
     var alexa = Alexa.handler(event, context);
-    alexa.registerHandlers(handlers);
+    //alexa.appId = 'amzn1.ask.skill.e8fec4fe-e282-4784-a3c2-838a9baa64ed'
+    alexa.resources = languageStrings;
+    alexa.registerHandlers(
+        newSessionHandlers,
+        startSessionHandlers,
+        trainingSessionHandlers
+    );
     alexa.execute();
 };
 
-var handlers = {
-    'LaunchRequest': function () {
-        this.emit('Start');
-    },
-    'NewGameIntent': function() {
-        this.emit('Start');
-    },
-    'MyNameIsIntent': function () {
-        this.emit('SayHelloName');
-    },
-    'TrainingIntent': function() {
-        this.emit('Training');
-    },
-    'CompleteIntent': function() {
-        var speechOutput = "Well done my young ninja. Let us move on to the next level of your training";
-        console.log('CompleteIntent');
-        this.response.speak(speechOutput);
-        this.emit('Training');
-    },
-    'FailedIntent': function() {
-        var speechOutput = "Do not worry young ninja, it takes many years to grow a tree. Let's try again."
-        console.log('FailedIntent');
-        this.response.speak(speechOutput);
-        this.emit('Training');
-    },
-    'Start': function() {
-        let speechOutput = "";
+const languageStrings = {
+    'en-US': {
+        'translation': {
+            'TITLE'  : "Ninja School",
+            'WELCOME_LAUNCH':"Welcome to Ninja School!. <audio src='" + data.songs['intro'] + "' /> Before we start your training, what is your name young master?",
+            'WELCOME_NAME': "Welcome ninja<break time='5ms'/> %s! Before we begin make sure your training space is clean. A good ninja always ensures a clean training room. '<audio src='" + data.songs['medium'] + "' /> When you are ready to begin, say begin training. ",
+            'HELP_MESSAGE': "You can try: 'start Ninja School' or 'Alexa, ask Ninja School to start'"
+        }
+    }
+};
 
-        speechOutput += "Welcome to Ninja School!. <audio src='" + data.songs['intro'] + "' /> ";
-        speechOutput += "Before we start your training, what is your name young master?";
+const states = {
+    START:      "_START",
+    TRAINING:   "_TRAINING",
+    SUCCESS:    "_SUCCESS",
+    FAILURE:    "_FAILURE"
+};
 
-        this.response.speak(speechOutput).listen(speechOutput);
+const newSessionHandlers = {
+    'NewSession': function() {
+        this.handler.state = states.START;
+        this.emitWithState('NewSession');
+    }
+};
+
+const startSessionHandlers = Alexa.CreateStateHandler(states.START, {
+    'NewSession': function() {
+        this.response.speak(this.t('WELCOME_LAUNCH')).listen();
+        this.attributes['wins'] = 0;
+        this.attributes['losses'] = 0;
+        this.attributes['stage'] = 1;
         this.emit(':responseReady');
     },
-    'SayHelloName': function () {
+    'MyNameIsIntent': function () {
         var name = this.event.request.intent.slots.name.value;
         name = name.charAt(0).toUpperCase() + name.slice(1);
         this.attributes['name'] = name;
 
-        let speechOutput = '';
-
-        speechOutput += "Welcome ninja<break time='20ms'/> " + name + "! ";
-        speechOutput += 'Before we begin make sure your training space is clean. ';
-        speechOutput += 'A good ninja always ensures a clean training room. ';
-        speechOutput += "<audio src='" + data.songs['medium'] + "' /> ";
-        speechOutput += 'When you are ready to begin, say begin training. ';
-
         this.response
-            .speak(speechOutput)
-            .listen(speechOutput);
+            .speak(this.t('WELCOME_NAME', name))
+            .listen(this.t('WELCOME_NAME', name));
             //.cardRenderer(data.appName, helpers.prepareForCard(speechOutput));
         this.emit(':responseReady');
     },
-    'Training': function() {
-        let name = this.attributes['name'];
+    'TrainingIntent': function() {
+        var name = this.attributes['name'];
+        var stage = this.attributes['stage'];
 
-        let speechOutput = '';
-
-        speechOutput += '<s>Stage One!</s> ';
-        speechOutput = helpers.getActivity(speechOutput);
-
-        speechOutput += "Did you complete your tasks successfully ninja warrior?";
-
+        var say = '<s>Stage ' + stage + ' !</s> ';
+        this.handler.state = states.TRAINING;
+        this.emitWithState('TrainingIntent', say);
+    },
+    "AMAZON.HelpIntent": function() {
         this.response
-            .speak(speechOutput)
-            .listen(speechOutput);
-            //.cardRenderer(data.appName, helpers.prepareForCard(speechOutput));
+            .speak(this.t("HELP_MESSAGE"))
+            .listen(this.t("HELP_MESSAGE"));
         this.emit(':responseReady');
     },
-    'SessionEndedRequest': function() {
-        console.log('Session ended with reason: ' + this.event.request.reason);
-    },
-    'AMAZON.StopIntent': function() {
-        this.response.speak(data.byeText);
+    "AMAZON.CancelIntent": function() {
+        this.response.speak(data.byeText)
         this.emit(':responseReady');
     },
-    'AMAZON.HelpIntent': function() {
-        this.response.speak(data.helpText);
-        this.emit(':responseReady');
-    },
-    'AMAZON.CancelIntent': function() {
+    "AMAZON.StopIntent": function() {
         this.response.speak(data.byeText);
         this.emit(':responseReady');
     },
     'Unhandled': function() {
 
-        let speechOutput = "Sorry, I didn't get that. ";
+        var speechOutput = 'I\'m sorry ninja warrior, I don\'t understand. ';
         speechOutput += data.helpText;
 
-        this.response.speak(speechOutput);
+        this.response
+            .speak(speechOutput)
+            .listen('Try again please.');
+        this.emit(':responseReady');
     }
-};
+});
+
+const trainingSessionHandlers = Alexa.CreateStateHandler(states.TRAINING, {
+    'TrainingIntent': function(say) {
+        var name = this.attributes['name'];
+
+        say = helpers.getActivity(say);
+
+        say += 'Did you complete your tasks successfully ninja warrior?';
+
+        this.response
+            .speak(say)
+            .listen(say);
+            //.cardRenderer(data.appName, helpers.prepareForCard(speechOutput));
+        this.emit(':responseReady');
+    },
+    'AMAZON.YesIntent': function() {
+        this.attributes['wins']++;
+        var say = 'Well done my young ninja. Let us move on to the next level of your training. ';
+        this.emitWithState('TrainingIntent', say);
+    },
+    'AMAZON.NoIntent': function() {
+        this.attributes['losses']++;
+        var say = 'Do not fear young ninja, it takes many years to become a master. ';
+        this.emitWithState('TrainingIntent', say);
+    },
+    "AMAZON.CancelIntent": function() {
+        this.response.speak(data.byeText)
+        this.emit(':responseReady');
+    },
+    "AMAZON.StopIntent": function() {
+        this.response.speak(data.byeText);
+        this.emit(':responseReady');
+    },
+    'Unhandled': function() {
+        this.response
+            .speak('I\'m sorry ninja warrior, I don\'t understand. ')
+            .listen('Try again please.');
+        this.emit(':responseReady');
+    }
+});
