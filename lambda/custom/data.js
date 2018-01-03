@@ -1,8 +1,8 @@
 module.exports = {
 
     'appName': 'Ninja Master',
-    'helpText': "You can try: 'start Ninja School' or 'Alexa, ask Ninja School to start'",
-    'byeText': "Farewell ninja, return soon.",
+    'rounds': 2,
+    'stages': 2,
     'songs': {
         "intro": "https://s3.amazonaws.com/asksounds/happyintro.mp3",
         "easy": "https://s3.amazonaws.com/asksounds/waitingtime1.mp3",
@@ -11,7 +11,7 @@ module.exports = {
         "correct": "https://s3.amazonaws.com/asksounds/correct1.mp3"
     },
     'tasks': {
-        'one': [
+        1: [
             {
                 "scene": "A ninja must be limber and loose.",
                 "task": "You must touch your toes {reps} times.",
@@ -26,6 +26,23 @@ module.exports = {
                 "scene": "A ninja must be quick on their toes.",
                 "task": "You must do {reps} jumping jacks.",
                 "taskSingular": "You must do {reps} jumping jacks."
+            }
+        ],
+        2: [
+            {
+                "scene": "A ninja must be able to get up quickly in case of danger.",
+                "task": "You must lie down and then jump up to your feet {reps} times.",
+                "taskSingular": "You must lie down and then jump up to your feet {reps} time."
+            },
+            {
+                "scene": "A ninja must possess an inner calmness.",
+                "task": "You must balance on one foot for {reps} seconds.",
+                "taskSingular": "You must balance on one foot for {reps} seconds."
+            },
+            {
+                "scene": "A ninja must be explosive and quick.",
+                "task": "You must jump up and tuck your knees to your chest {reps} times.",
+                "taskSingular": "You must jump up and tuck your knees to your chest {reps} time."
             }
         ]
     },

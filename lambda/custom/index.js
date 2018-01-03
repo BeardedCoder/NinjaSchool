@@ -19,10 +19,11 @@ exports.handler = function(event, context) {
 const languageStrings = {
     'en-US': {
         'translation': {
-            'TITLE'  : "Ninja School",
-            'WELCOME_LAUNCH':"Welcome to Ninja School!. <audio src='" + data.songs['intro'] + "' /> Before we start your training, what is your name young master?",
+            'TITLE': "Ninja School",
+            'WELCOME_LAUNCH': "Welcome to Ninja School!. <audio src='" + data.songs['intro'] + "' /> Before we start your training, what is your name young master?",
             'WELCOME_NAME': "Welcome ninja<break time='5ms'/> %s! Before we begin make sure your training space is clean. A good ninja always ensures a clean training room. '<audio src='" + data.songs['medium'] + "' /> When you are ready to begin, say begin training. ",
-            'HELP_MESSAGE': "You can try: 'start Ninja School' or 'Alexa, ask Ninja School to start'"
+            'HELP_MESSAGE': "You can try: 'start Ninja School' or 'Alexa, ask Ninja School to start'",
+            'BYE_MESSAGE': "Farewell ninja, return soon"
         }
     }
 };
@@ -75,11 +76,11 @@ const startSessionHandlers = Alexa.CreateStateHandler(states.START, {
         this.emit(':responseReady');
     },
     "AMAZON.CancelIntent": function() {
-        this.response.speak(data.byeText)
+        this.response.speak(this.t('BYE_MESSAGE'));
         this.emit(':responseReady');
     },
     "AMAZON.StopIntent": function() {
-        this.response.speak(data.byeText);
+        this.response.speak(this.t('BYE_MESSAGE'));
         this.emit(':responseReady');
     },
     'Unhandled': function() {
@@ -97,10 +98,21 @@ const startSessionHandlers = Alexa.CreateStateHandler(states.START, {
 const trainingSessionHandlers = Alexa.CreateStateHandler(states.TRAINING, {
     'TrainingIntent': function(say) {
         var name = this.attributes['name'];
+        var stage = this.attributes['stage'];
+        var wins = this.attributes['wins'];
+
+        var roundsToComplete = data.rounds;
+        console.log('wins: ', wins, roundsToComplete);
+
+        if(wins % roundsToComplete == 0) {
+            stage = wins / roundsToComplete;
+            this.attributes['stage'] = stage;
+            console.log('New stage');
+        }
 
         say = helpers.getActivity(say);
 
-        say += 'Did you complete your tasks successfully ninja warrior?';
+        say += 'Did you complete your tasks successfully ninja warrior ' + name + '?';
 
         this.response
             .speak(say)
@@ -119,11 +131,11 @@ const trainingSessionHandlers = Alexa.CreateStateHandler(states.TRAINING, {
         this.emitWithState('TrainingIntent', say);
     },
     "AMAZON.CancelIntent": function() {
-        this.response.speak(data.byeText)
+        this.response.speak(this.t('BYE_MESSAGE'));
         this.emit(':responseReady');
     },
     "AMAZON.StopIntent": function() {
-        this.response.speak(data.byeText);
+        this.response.speak(this.t('BYE_MESSAGE'));
         this.emit(':responseReady');
     },
     'Unhandled': function() {

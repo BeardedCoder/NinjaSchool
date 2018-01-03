@@ -2,5 +2,7 @@ LaunchRequest
 MyNameIsIntent name=Bob
 TrainingIntent
 AMAZON.YesIntent
+AMAZON.YesIntent
+AMAZON.YesIntent
 AMAZON.NoIntent
 AMAZON.StopIntent
