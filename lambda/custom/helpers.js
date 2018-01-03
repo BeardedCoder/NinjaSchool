@@ -30,6 +30,21 @@ exports.getActivity = function(speechOutput) {
     return speechOutput;
 };
 
+exports.getRank = function(stage) {
+
+    var rank = data.ranks[stage];
+
+    rank = rank.replace(/ ?{name} ?/, '');
+    return rank;
+};
+
+exports.getRankWithName = function(stage, name) {
+    var rank = data.ranks[stage];
+
+    rank = rank.replace(/ ?{name} ?/, name);
+    return rank;
+}
+
 exports.prepareForCard = function(speechOutput) {
 
 	var output = speechOutput.replace(/<\/s>/, '\n');

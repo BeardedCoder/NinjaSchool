@@ -32,3 +32,19 @@ describe('prepareForCard', function() {
 		helpers.prepareForCard(input).should.equal(expected);
 	})
 });
+
+describe('getRank', function() {
+	it('should remove {name} from end', function() {
+		var input = 'Novice {name}';
+		var expected = 'Novice';
+
+		helpers.getRank(1).should.equal(expected);
+	});
+
+	it('should remove {name} from start', function() {
+		var input = '{name} the Great';
+		var expected = 'the Great';
+
+		helpers.getRank(3).should.equal(expected);
+	});
+});

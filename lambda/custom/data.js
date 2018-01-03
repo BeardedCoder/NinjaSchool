@@ -10,6 +10,17 @@ module.exports = {
         "hard": "https://s3.amazonaws.com/asksounds/waitingtime2.mp3",
         "correct": "https://s3.amazonaws.com/asksounds/correct1.mp3"
     },
+    'ranks': [
+        '',
+        'Novice {name}',
+        'Apprentice {name}',
+        '{name} the Great',
+        '{name} the Strong',
+        'Ranger {name}',
+        'Shogun {name}',
+        'Master {name}'
+    ],
+    //Dragonlord, Protector, Ranger, Squire, the Strong
     'tasks': {
         1: [
             {
