@@ -48,3 +48,13 @@ describe('getRank', function() {
 		helpers.getRank(3).should.equal(expected);
 	});
 });
+
+describe('getRankWithName', function() {
+	it('should replace the name', function() {
+		var input = 'Novice {name}';
+		var name = 'Bob';
+		var expected = 'Novice Bob';
+
+		helpers.getRankWithName(1, name).should.equal(expected);
+	});
+});

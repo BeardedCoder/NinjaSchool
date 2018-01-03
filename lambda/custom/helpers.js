@@ -41,7 +41,7 @@ exports.getRank = function(stage) {
 exports.getRankWithName = function(stage, name) {
     var rank = data.ranks[stage];
 
-    rank = rank.replace(/ ?{name} ?/, name);
+    rank = rank.replace(/{name}/, name);
     return rank;
 }
 

@@ -104,9 +104,12 @@ const trainingSessionHandlers = Alexa.CreateStateHandler(states.TRAINING, {
         var roundsToComplete = data.rounds;
         console.log('wins: ', wins, roundsToComplete);
 
-        if(wins % roundsToComplete == 0) {
+        if(wins > 0 && wins % roundsToComplete == 0) {
             stage = wins / roundsToComplete;
             this.attributes['stage'] = stage;
+            say += 'Congratulations young warrior, you have earned the right to move to the next stage of training. ';
+            say += 'You have now earned the rank of ' + helpers.getRank(stage) + '. ';
+            say += 'Congratulations ' + helpers.getRankWithName(stage, name) + '! ';
             console.log('New stage');
         }
 
