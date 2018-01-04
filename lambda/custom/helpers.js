@@ -60,10 +60,10 @@ exports.prepareForCard = function(speechOutput) {
 	return output;
 };
 
-exports.getSpeechCon = function(type) {
+exports.getSpeechCon = function(isPositive) {
     var speechCon = "";
 
-    if (type) {
+    if (isPositive) {
         speechCon = data.speechConsCorrect[getRandom(0, data.speechConsCorrect.length - 1)];
     } else {
         speechCon = data.speechConsWrong[getRandom(0, data.speechConsWrong.length - 1)];
