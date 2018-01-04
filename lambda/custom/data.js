@@ -2,7 +2,7 @@ module.exports = {
 
     'appName': 'Ninja Master',
     'rounds': 2,
-    'stages': 2,
+    'stages': 3,
     'songs': {
         'intro': 'https://s3.amazonaws.com/asksounds/happyintro.mp3',
         'easy': 'https://s3.amazonaws.com/asksounds/waitingtime1.mp3',
@@ -37,6 +37,16 @@ module.exports = {
                 'scene': 'A ninja must be quick on their toes.',
                 'task': 'You must do {reps} jumping jacks.',
                 'taskSingular': 'You must do {reps} jumping jacks.'
+            },
+            {
+                'scene': 'A ninja must be a master of stealth.',
+                'task': 'You must sneak on your tippy toes for {reps} seconds.',
+                'taskSingular': 'You must sneak on your tippy toes for {reps} seconds.'
+            },
+            {
+                'scene': 'A ninja must be able to mimic anyone at any time.',
+                'task': 'You must pretend to be an baby for {reps} seconds.',
+                'taskSingular': 'You must pretend to be an baby for {reps} seconds.'
             }
         ],
         2: [
@@ -49,6 +59,33 @@ module.exports = {
                 'scene': 'A ninja must possess an inner calmness.',
                 'task': 'You must balance on one foot for {reps} seconds.',
                 'taskSingular': 'You must balance on one foot for {reps} seconds.'
+            },
+            {
+                'scene': 'A ninja must be explosive and quick.',
+                'task': 'You must jump up and tuck your knees to your chest {reps} times.',
+                'taskSingular': 'You must jump up and tuck your knees to your chest {reps} time.'
+            },
+            {
+                'scene': 'A ninja must be like the wind.',
+                'task': 'You must spin in a cirlce like a tornado {reps} times.',
+                'taskSingular': 'You must spin in a cirlce like a tornado {reps} time.'
+            }
+        ],
+        3: [
+            {
+                'scene': 'A ninja must be a master of illusion.',
+                'task': 'You must pretend to be an adult for {reps} seconds.',
+                'taskSingular': 'You must pretend to be an adult for {reps} seconds.'
+            },
+            {
+                'scene': 'A ninja must possess an inner calmness.',
+                'task': 'You must balance on one foot with your hands in the air for {reps} seconds.',
+                'taskSingular': 'You must balance on one foot  with your hands in the air for {reps} seconds.'
+            },
+            {
+                'scene': 'A ninja must be explosive and quick.',
+                'task': 'You must jump up and tuck your knees to your chest {reps} times.',
+                'taskSingular': 'You must jump up and tuck your knees to your chest {reps} time.'
             },
             {
                 'scene': 'A ninja must be explosive and quick.',
