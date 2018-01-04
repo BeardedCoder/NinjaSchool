@@ -36,12 +36,12 @@ module.exports = {
             {
                 'scene': 'A ninja must be quick on their toes.',
                 'task': 'Do {reps} jumping jacks.',
-                'taskSingular': 'Do {reps} jumping jacks.'
+                'taskSingular': 'Do {reps} jumping jack.'
             },
             {
                 'scene': 'A ninja must be a master of stealth.',
                 'task': 'Sneak on your tippy toes for {reps} seconds.',
-                'taskSingular': 'Sneak on your tippy toes for {reps} seconds.'
+                'taskSingular': 'Sneak on your tippy toes for {reps} second.'
             },
             {
                 'scene': 'A ninja must be able to mimic anyone at any time.',

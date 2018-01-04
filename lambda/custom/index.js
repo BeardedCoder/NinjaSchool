@@ -85,7 +85,7 @@ const startSessionHandlers = Alexa.CreateStateHandler(states.START, {
     },
     'Unhandled': function() {
 
-        var speechOutput = 'I\'m sorry ninja warrior, I don\'t understand. ';
+        var speechOutput = 'I\'m sorry, I don\'t understand. ';
         speechOutput += data.helpText;
 
         this.response
@@ -103,7 +103,6 @@ const trainingSessionHandlers = Alexa.CreateStateHandler(states.TRAINING, {
 
         var roundsToComplete = data.rounds;
         var maxStage = data.stages;
-        console.log('wins: ', wins, roundsToComplete);
 
         if(wins > 0 && wins % roundsToComplete == 0 && stage != maxStage) {
             stage = (wins / data.rounds) + 1;
@@ -111,18 +110,17 @@ const trainingSessionHandlers = Alexa.CreateStateHandler(states.TRAINING, {
                 stage = data.stages;
             } else {
 
-                say = 'Congratulations young warrior, you have completed this level of your training. ';
-                say += 'You have now earned the rank of ' + helpers.getRank(stage) + '. ';
+                say = 'Congratulations ninja, you have completed this level of your training. ';
+                say += 'You have earned the rank of ' + helpers.getRank(stage) + '. ';
                 say += 'Congratulations ' + helpers.getRankWithName(stage, name) + '! ';
                 say += 'Let\'s move on to your next task. ';
-                console.log('New stage', stage);
             }
             this.attributes['stage'] = stage;
         }
 
         say = helpers.getActivity(say, stage);
 
-        say += 'Did you complete your tasks successfully ninja warrior ' + name + '?';
+        say += 'Did you complete your task successfully ' + helpers.getRankWithName(stage, name) + '?';
 
         this.response
             .speak(say)
@@ -140,6 +138,7 @@ const trainingSessionHandlers = Alexa.CreateStateHandler(states.TRAINING, {
         this.attributes['losses']++;
         var speechCon = helpers.getSpeechCon(false);
         var say = speechCon + ' Do not fear young ninja, it takes many years to become a master. ';
+        say += 'Let\'s move on to your next task. ';
         this.emitWithState('TrainingIntent', say);
     },
     "AMAZON.CancelIntent": function() {
@@ -152,7 +151,7 @@ const trainingSessionHandlers = Alexa.CreateStateHandler(states.TRAINING, {
     },
     'Unhandled': function() {
         this.response
-            .speak('I\'m sorry ninja warrior, I don\'t understand. ')
+            .speak('I\'m sorry, I don\'t understand. ')
             .listen('Try again please.');
         this.emit(':responseReady');
     }
