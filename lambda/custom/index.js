@@ -132,12 +132,14 @@ const trainingSessionHandlers = Alexa.CreateStateHandler(states.TRAINING, {
     },
     'AMAZON.YesIntent': function() {
         this.attributes['wins']++;
-        var say = 'Well done my young ninja. Let us move on to your next task. ';
+        var speechCon = helpers.getSpeechCon(true);
+        var say = speechCon + ' Let\'s move on to your next task. ';
         this.emitWithState('TrainingIntent', say);
     },
     'AMAZON.NoIntent': function() {
         this.attributes['losses']++;
-        var say = 'Do not fear young ninja, it takes many years to become a master. ';
+        var speechCon = helpers.getSpeechCon(false);
+        var say = speechCon + ' Do not fear young ninja, it takes many years to become a master. ';
         this.emitWithState('TrainingIntent', say);
     },
     "AMAZON.CancelIntent": function() {
