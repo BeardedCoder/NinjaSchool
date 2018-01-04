@@ -102,19 +102,25 @@ const trainingSessionHandlers = Alexa.CreateStateHandler(states.TRAINING, {
         var wins = this.attributes['wins'];
 
         var roundsToComplete = data.rounds;
+        var maxStage = data.stages;
         console.log('wins: ', wins, roundsToComplete);
 
-        if(wins > 0 && wins % roundsToComplete == 0) {
-            stage = wins / roundsToComplete;
+        if(wins > 0 && wins % roundsToComplete == 0 && stage != maxStage) {
+            stage = (wins / data.rounds) + 1;
+            if(stage > data.stages) {
+                stage = data.stages;
+            } else {
+
+                say = 'Congratulations young warrior, you have completed this level of your training. ';
+                say += 'You have now earned the rank of ' + helpers.getRank(stage) + '. ';
+                say += 'Congratulations ' + helpers.getRankWithName(stage, name) + '! ';
+                say += 'Let\'s move on to your next task. ';
+                console.log('New stage', stage);
+            }
             this.attributes['stage'] = stage;
-            say = 'Congratulations young warrior, you have earned the right to move to the next stage of training. ';
-            say += 'You have now earned the rank of ' + helpers.getRank(stage) + '. ';
-            say += 'Congratulations ' + helpers.getRankWithName(stage, name) + '! ';
-            say += 'Let\'s move on to your next task. ';
-            console.log('New stage');
         }
 
-        say = helpers.getActivity(say);
+        say = helpers.getActivity(say, stage);
 
         say += 'Did you complete your tasks successfully ninja warrior ' + name + '?';
 
