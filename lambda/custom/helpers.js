@@ -53,6 +53,18 @@ exports.prepareForCard = function(speechOutput) {
 	return output;
 };
 
+exports.getSpeechCon = function(type) {
+    var speechCon = "";
+
+    if (type) {
+        speechCon = data.speechConsCorrect[getRandom(0, data.speechConsCorrect.length - 1)];
+    } else {
+        speechCon = data.speechConsWrong[getRandom(0, data.speechConsWrong.length - 1)];
+    }
+    return "<say-as interpret-as='interjection'>" + speechCon + "! </say-as><break strength='strong'/>";
+}
+
+
 function getRandom(min, max) {
     return Math.floor(Math.random() * (max - min + 1) + min);
 }

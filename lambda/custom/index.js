@@ -6,7 +6,7 @@ const helpers = require('./helpers.js');
 
 exports.handler = function(event, context) {
     var alexa = Alexa.handler(event, context);
-    //alexa.appId = 'amzn1.ask.skill.e8fec4fe-e282-4784-a3c2-838a9baa64ed'
+    alexa.appId = 'amzn1.ask.skill.e8fec4fe-e282-4784-a3c2-838a9baa64ed'
     alexa.resources = languageStrings;
     alexa.registerHandlers(
         newSessionHandlers,
@@ -107,9 +107,10 @@ const trainingSessionHandlers = Alexa.CreateStateHandler(states.TRAINING, {
         if(wins > 0 && wins % roundsToComplete == 0) {
             stage = wins / roundsToComplete;
             this.attributes['stage'] = stage;
-            say += 'Congratulations young warrior, you have earned the right to move to the next stage of training. ';
+            say = 'Congratulations young warrior, you have earned the right to move to the next stage of training. ';
             say += 'You have now earned the rank of ' + helpers.getRank(stage) + '. ';
             say += 'Congratulations ' + helpers.getRankWithName(stage, name) + '! ';
+            say += 'Let\'s move on to your next task. ';
             console.log('New stage');
         }
 
@@ -125,7 +126,7 @@ const trainingSessionHandlers = Alexa.CreateStateHandler(states.TRAINING, {
     },
     'AMAZON.YesIntent': function() {
         this.attributes['wins']++;
-        var say = 'Well done my young ninja. Let us move on to the next level of your training. ';
+        var say = 'Well done my young ninja. Let us move on to your next task. ';
         this.emitWithState('TrainingIntent', say);
     },
     'AMAZON.NoIntent': function() {
