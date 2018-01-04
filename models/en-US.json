@@ -17,6 +17,14 @@
                     "samples": []
                 },
                 {
+                    "name": "AMAZON.YesIntent",
+                    "samples": []
+                },
+                {
+                    "name": "AMAZON.NoIntent",
+                    "samples": []
+                },
+                {
                     "name": "NewGameIntent",
                     "samples": [
                         "start",
@@ -37,7 +45,6 @@
                         }
                     ],
                     "samples":[
-                        "{name}",
                         "my name is {name}",
                         "i am {name}",
                         "you can call me {name}"
@@ -48,22 +55,6 @@
                     "samples": [
                         "begin training",
                         "begin"
-                    ]
-                },
-                {
-                    "name": "CompleteIntent",
-                    "samples": [
-                        "yes",
-                        "yeah",
-                        "I finished"
-                    ]
-                },
-                {
-                    "name": "FailedIntent",
-                    "samples": [
-                        "no",
-                        "nope",
-                        "I did not"
                     ]
                 }
             ]
