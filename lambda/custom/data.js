@@ -45,8 +45,8 @@ module.exports = {
             },
             {
                 'scene': 'A ninja must be able to mimic anyone at any time.',
-                'task': 'Pretend to be an baby for {reps} seconds.',
-                'taskSingular': 'Pretend to be an baby for {reps} seconds.'
+                'task': 'Pretend to be a baby for {reps} seconds.',
+                'taskSingular': 'Pretend to be a baby for {reps} second.'
             }
         ],
         2: [
@@ -58,7 +58,7 @@ module.exports = {
             {
                 'scene': 'A ninja must possess an inner calmness.',
                 'task': 'Balance on one foot for {reps} seconds.',
-                'taskSingular': 'Balance on one foot for {reps} seconds.'
+                'taskSingular': 'Balance on one foot for {reps} second.'
             },
             {
                 'scene': 'A ninja must be explosive and quick.',
@@ -75,12 +75,12 @@ module.exports = {
             {
                 'scene': 'A ninja must be a master of illusion.',
                 'task': 'Pretend to be an adult for {reps} seconds.',
-                'taskSingular': 'Pretend to be an adult for {reps} seconds.'
+                'taskSingular': 'Pretend to be an adult for {reps} second.'
             },
             {
                 'scene': 'A ninja must possess an inner calmness.',
                 'task': 'Balance on one foot with your hands in the air for {reps} seconds.',
-                'taskSingular': 'Balance on one foot  with your hands in the air for {reps} seconds.'
+                'taskSingular': 'Balance on one foot with your hands in the air for {reps} second.'
             },
             {
                 'scene': 'A ninja must be explosive and quick.',
@@ -90,7 +90,7 @@ module.exports = {
             {
                 'scene': 'A ninja must be sneaky.',
                 'task': 'Slither on your belly like a snake for {reps} seconds.',
-                'taskSingular': 'Slither on your belly like a snake for {reps} seconds.'
+                'taskSingular': 'Slither on your belly like a snake for {reps} second.'
             }
         ]
     },
