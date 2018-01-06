@@ -2,23 +2,21 @@ module.exports = {
 
     'appName': 'Ninja Master',
     'rounds': 2,
-    'stages': 3,
+    'stages': 4,
     'songs': {
         'intro': 'https://s3.amazonaws.com/asksounds/happyintro.mp3',
-        'easy': 'https://s3.amazonaws.com/asksounds/waitingtime1.mp3',
-        'medium': 'https://s3.amazonaws.com/asksounds/waitingtime3.mp3',
-        'hard': 'https://s3.amazonaws.com/asksounds/waitingtime2.mp3',
-        'correct': 'https://s3.amazonaws.com/asksounds/correct1.mp3'
+        'congrats': 'https://s3.amazonaws.com/asksounds/waitingtime1.mp3',
+        'cleaning': 'https://s3.amazonaws.com/asksounds/waitingtime3.mp3'
     },
     'ranks': [
         '',
         'Novice {name}',
         'Apprentice {name}',
         '{name} the Great',
+        'Master {name}',
         '{name} the Strong',
         'Ranger {name}',
-        'Shogun {name}',
-        'Master {name}'
+        'Shogun {name}'
     ],
     //Dragonlord, Protector, Ranger, Squire, the Strong
     'tasks': {
@@ -91,6 +89,53 @@ module.exports = {
                 'scene': 'A ninja must be sneaky.',
                 'task': 'Slither on your belly like a snake for {reps} seconds.',
                 'taskSingular': 'Slither on your belly like a snake for {reps} second.'
+            },
+            {
+                'scene': 'A ninja must be fast like the wind.',
+                'task': 'Run on the spot as fast as you can for {reps} seconds.',
+                'taskSingular': 'Run on the spot as fast as you can for {reps} second.'
+            },
+            {
+                'scene': 'A ninja must possess dexterity.',
+                'task': 'Jump on one foot {reps} times.',
+                'taskSingular': 'Jump on one foot {reps} time.'
+            }
+        ],
+        4: [
+            {
+                'scene': 'A ninja must be a able to become anything.',
+                'task': 'Pretend to be a dog for {reps} seconds.',
+                'taskSingular': 'Pretend to be a dog for {reps} second.'
+            },
+            {
+                'scene': 'A ninja must calm like a still lake.',
+                'task': 'Balance on one foot with your other foot extended straight in front of you for {reps} seconds.',
+                'taskSingular': 'Balance on one foot with your other foot extended straight in front of you for {reps} second.'
+            },
+            {
+                'scene': 'A ninja must be explosive and quick.',
+                'task': 'Jump up and spin in a full circle {reps} times.',
+                'taskSingular': 'Jump up and spin in a full circle {reps} time.'
+            },
+            {
+                'scene': 'A ninja must be ready to evade danger.',
+                'task': 'Duck down then leap back up {reps} times.',
+                'taskSingular': 'Duck down then leap back up {reps} time.'
+            },
+            {
+                'scene': 'A ninja must be quick and agile.',
+                'task': 'Do {reps} cartwheels.',
+                'taskSingular': 'Do {reps} cartwheel.'
+            },
+            {
+                'scene': 'A ninja must be strong.',
+                'task': 'Do {reps} pushups.',
+                'taskSingular': 'Do {reps} pushup.'
+            },
+            {
+                'scene': 'A ninja must possess an inner core strength.',
+                'task': 'Hold a plank for {reps} seconds.',
+                'taskSingular': 'Hold a plank for {reps} second.'
             }
         ]
     },

@@ -24,8 +24,8 @@ const languageStrings = {
         'translation': {
             'TITLE': "Ninja School",
             'WELCOME_LAUNCH': "Welcome to Ninja School!. <audio src='" + data.songs['intro'] + "' /> Before we start your training, what is your name young master?",
-            'WELCOME_NAME': "Welcome ninja<break time='5ms'/> %s! Before we begin make sure your training space is clean. A good ninja always ensures a clean training room. <audio src='" + data.songs['medium'] + "' /> When you are ready to begin, say begin training. ",
-            'WELCOME_BACK_NAME': "Welcome back %s! Before we begin make sure your training space is clean. A good ninja always ensures a clean training room. <audio src='" + data.songs['medium'] + "' /> When you are ready to begin, say begin training. ",
+            'WELCOME_NAME': "Welcome ninja<break time='5ms'/> %s! Before we begin make sure your training space is clean. A good ninja always ensures a clean training room. <audio src='" + data.songs['cleaning'] + "' /> When you are ready to begin, say begin training. ",
+            'WELCOME_BACK_NAME': "Welcome back %s! Before we begin make sure your training space is clean. A good ninja always ensures a clean training room. <audio src='" + data.songs['cleaning'] + "' /> When you are ready to begin, say begin training. ",
             'HELP_MESSAGE': "You can try: 'start Ninja School' or 'Alexa, ask Ninja School to start'",
             'BYE_MESSAGE': "Farewell ninja, return soon"
         }
@@ -138,7 +138,7 @@ const trainingSessionHandlers = Alexa.CreateStateHandler(states.TRAINING, {
 
                 var speechCon = helpers.getSpeechCon(true);
 
-                var audio = data.songs['easy'];
+                var audio = data.songs['congrats'];
 
                 say = "<audio src='" + audio + "' /> ";
                 say += speechCon + ' ninja, you have completed this level of your training. ';
