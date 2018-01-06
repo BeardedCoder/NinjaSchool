@@ -131,7 +131,7 @@ const trainingSessionHandlers = Alexa.CreateStateHandler(states.TRAINING, {
         var maxStage = data.stages;
 
         if(!failed && wins > 0 && wins % roundsToComplete == 0 && stage != maxStage) {
-            stage = (wins / data.rounds) + 1;
+            stage++;
             if(stage > data.stages) {
                 stage = data.stages;
             } else {
@@ -147,6 +147,12 @@ const trainingSessionHandlers = Alexa.CreateStateHandler(states.TRAINING, {
                 say += 'Let\'s move on to your next task. ';
 
                 this.attributes['wins'] = 0;
+
+                this.response.cardRenderer(
+                    'Ninja School',
+                    'Congratulations ' + name + '! You have earned the rank of ' + helpers.getRank(stage) + '. ',
+                    helpers.getImageObject
+                );
             }
             this.attributes['stage'] = stage;
         }
@@ -158,7 +164,6 @@ const trainingSessionHandlers = Alexa.CreateStateHandler(states.TRAINING, {
         this.response
             .speak(say)
             .listen(say);
-            //.cardRenderer(data.appName, helpers.prepareForCard(speechOutput));
         this.emit(':responseReady');
     },
     'AMAZON.YesIntent': function() {
@@ -172,7 +177,13 @@ const trainingSessionHandlers = Alexa.CreateStateHandler(states.TRAINING, {
         var speechCon = helpers.getSpeechCon(true);
 
         var say = speechCon;
-        say += ' You only have ' + roundsLeft + ' tasks to complete before you achieve your next rank!';
+        var taskWord = 'tasks';;
+
+        if(roundsLeft === 1) {
+            taskWord = 'task';
+        }
+
+        say += ' You only have ' + roundsLeft + ' ' + taskWord + ' to complete before you achieve your next rank!';
         say += ' Let\'s move on to your next task. ';
         this.emitWithState('TrainingIntent', say);
     },

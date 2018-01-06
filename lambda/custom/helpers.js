@@ -65,6 +65,14 @@ exports.prepareForCard = function(speechOutput) {
 	return output;
 };
 
+exports.getImageObject = function() {
+    var imageObj = {
+        smallImageUrl: data.smallImageUrl,
+        largeImageUrl: data.largeImageUrl
+    };
+    return imageObj;
+}
+
 exports.getSpeechCon = function(isPositive) {
     var speechCon = "";
 

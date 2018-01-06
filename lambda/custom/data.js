@@ -1,6 +1,8 @@
 module.exports = {
 
     'appName': 'Ninja Master',
+    'smallImageUrl': 'https://s3.amazonaws.com/ninja-school/ninjaSchoolIconSmall.png',
+    'largeImageUrl': 'https://s3.amazonaws.com/ninja-school/ninjaSchoolIcon.png',
     'rounds': 2,
     'stages': 4,
     'songs': {
