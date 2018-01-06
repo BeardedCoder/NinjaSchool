@@ -4,6 +4,9 @@ var Alexa = require('alexa-sdk');
 const data = require('./data.js');
 const helpers = require('./helpers.js');
 
+var DatabaseHelper = require('./databaseHelper.js');
+const databaseHelper = new DatabaseHelper();
+
 exports.handler = function(event, context) {
     var alexa = Alexa.handler(event, context);
     alexa.appId = 'amzn1.ask.skill.e8fec4fe-e282-4784-a3c2-838a9baa64ed'
@@ -21,7 +24,8 @@ const languageStrings = {
         'translation': {
             'TITLE': "Ninja School",
             'WELCOME_LAUNCH': "Welcome to Ninja School!. <audio src='" + data.songs['intro'] + "' /> Before we start your training, what is your name young master?",
-            'WELCOME_NAME': "Welcome ninja<break time='5ms'/> %s! Before we begin make sure your training space is clean. A good ninja always ensures a clean training room. '<audio src='" + data.songs['medium'] + "' /> When you are ready to begin, say begin training. ",
+            'WELCOME_NAME': "Welcome ninja<break time='5ms'/> %s! Before we begin make sure your training space is clean. A good ninja always ensures a clean training room. <audio src='" + data.songs['medium'] + "' /> When you are ready to begin, say begin training. ",
+            'WELCOME_BACK_NAME': "Welcome back %s! Before we begin make sure your training space is clean. A good ninja always ensures a clean training room. <audio src='" + data.songs['medium'] + "' /> When you are ready to begin, say begin training. ",
             'HELP_MESSAGE': "You can try: 'start Ninja School' or 'Alexa, ask Ninja School to start'",
             'BYE_MESSAGE': "Farewell ninja, return soon"
         }
@@ -37,6 +41,9 @@ const states = {
 
 const newSessionHandlers = {
     'NewSession': function() {
+
+        databaseHelper.createTable();
+
         this.handler.state = states.START;
         this.emitWithState('NewSession');
     }
@@ -46,28 +53,44 @@ const startSessionHandlers = Alexa.CreateStateHandler(states.START, {
     'NewSession': function() {
         this.response.speak(this.t('WELCOME_LAUNCH')).listen();
         this.attributes['wins'] = 0;
-        this.attributes['losses'] = 0;
+        this.attributes['fail'] = false;
         this.attributes['stage'] = 1;
         this.emit(':responseReady');
     },
     'MyNameIsIntent': function () {
+        var userId = this.event.context.System.user.userId;
         var name = this.event.request.intent.slots.name.value;
+
         name = name.charAt(0).toUpperCase() + name.slice(1);
         this.attributes['name'] = name;
 
-        this.response
-            .speak(this.t('WELCOME_NAME', name))
-            .listen(this.t('WELCOME_NAME', name));
-            //.cardRenderer(data.appName, helpers.prepareForCard(speechOutput));
-        this.emit(':responseReady');
+        var say;
+        var that = this;
+
+        databaseHelper.readData(userId, name)
+            .then(function(data) {
+
+                var stage = data.data.stage;
+                that.attributes['stage'] = stage;
+                console.log(stage);
+                name = helpers.getRankWithName(stage, name)
+
+                say = 'WELCOME_BACK_NAME';
+            })
+            .catch(function(error) {
+                say = 'WELCOME_NAME';
+            })
+            .finally(function() {
+                that.response
+                    .speak(that.t(say, name))
+                    .listen(that.t(say, name));
+                    //.cardRenderer(data.appName, helpers.prepareForCard(speechOutput));
+                that.emit(':responseReady');
+            });
     },
     'TrainingIntent': function() {
-        var name = this.attributes['name'];
-        var stage = this.attributes['stage'];
-
-        var say = '<s>Stage ' + stage + ' !</s> ';
         this.handler.state = states.TRAINING;
-        this.emitWithState('TrainingIntent', say);
+        this.emitWithState('TrainingIntent', '');
     },
     "AMAZON.HelpIntent": function() {
         this.response
@@ -84,12 +107,8 @@ const startSessionHandlers = Alexa.CreateStateHandler(states.START, {
         this.emit(':responseReady');
     },
     'Unhandled': function() {
-
-        var speechOutput = 'I\'m sorry, I don\'t understand. ';
-        speechOutput += data.helpText;
-
         this.response
-            .speak(speechOutput)
+            .speak('I\'m sorry, I don\'t understand. ')
             .listen('Try again please.');
         this.emit(':responseReady');
     }
@@ -97,20 +116,28 @@ const startSessionHandlers = Alexa.CreateStateHandler(states.START, {
 
 const trainingSessionHandlers = Alexa.CreateStateHandler(states.TRAINING, {
     'TrainingIntent': function(say) {
+        console.log('TrainingIntent', this.handler.state)
         var name = this.attributes['name'];
         var stage = this.attributes['stage'];
+        console.log(stage);
         var wins = this.attributes['wins'];
+        var failed = this.attributes['fail'];
 
         var roundsToComplete = data.rounds;
         var maxStage = data.stages;
 
-        if(wins > 0 && wins % roundsToComplete == 0 && stage != maxStage) {
+        if(!failed && wins > 0 && wins % roundsToComplete == 0 && stage != maxStage) {
             stage = (wins / data.rounds) + 1;
             if(stage > data.stages) {
                 stage = data.stages;
             } else {
 
-                say = 'Congratulations ninja, you have completed this level of your training. ';
+                var speechCon = helpers.getSpeechCon(true);
+
+                var audio = data.songs['easy'];
+
+                say = "<audio src='" + audio + "' /> ";
+                say += speechCon + ' ninja, you have completed this level of your training. ';
                 say += 'You have earned the rank of ' + helpers.getRank(stage) + '. ';
                 say += 'Congratulations ' + helpers.getRankWithName(stage, name) + '! ';
                 say += 'Let\'s move on to your next task. ';
@@ -129,25 +156,69 @@ const trainingSessionHandlers = Alexa.CreateStateHandler(states.TRAINING, {
         this.emit(':responseReady');
     },
     'AMAZON.YesIntent': function() {
+        console.log('YesIntent', this.handler.state)
         this.attributes['wins']++;
         var speechCon = helpers.getSpeechCon(true);
         var say = speechCon + ' Let\'s move on to your next task. ';
         this.emitWithState('TrainingIntent', say);
     },
     'AMAZON.NoIntent': function() {
-        this.attributes['losses']++;
+        console.log('NoIntent', this.handler.state)
+        this.attributes['fail'] = true;
         var speechCon = helpers.getSpeechCon(false);
         var say = speechCon + ' Do not fear young ninja, it takes many years to become a master. ';
         say += 'Let\'s move on to your next task. ';
         this.emitWithState('TrainingIntent', say);
     },
     "AMAZON.CancelIntent": function() {
-        this.response.speak(this.t('BYE_MESSAGE'));
-        this.emit(':responseReady');
+
+        var userId = this.event.context.System.user.userId;
+        var name = this.attributes['name'];
+        var data = {
+            'name': name,
+            'stage': this.attributes['stage']
+        };
+
+        var that = this;
+
+        databaseHelper.storeData(userId, name, data)
+        .then(
+            function(result) {
+                console.log('data written', result);
+                return result;
+            })
+        .catch( function(error) {} )
+        .finally(function() {
+
+            that.response.speak(that.t('BYE_MESSAGE'));
+            that.handler.state = states.START;
+            that.emitWithState(':responseReady');
+        });
     },
     "AMAZON.StopIntent": function() {
-        this.response.speak(this.t('BYE_MESSAGE'));
-        this.emit(':responseReady');
+
+        var userId = this.event.context.System.user.userId;
+        var name = this.attributes['name'];
+        var data = {
+            'name': name,
+            'stage': this.attributes['stage']
+        };
+
+        var that = this;
+
+        databaseHelper.storeData(userId, name, data)
+        .then(
+            function(result) {
+                console.log('data written', result);
+                return result;
+            })
+        .catch( function(error) {} )
+        .finally(function() {
+
+            that.response.speak(that.t('BYE_MESSAGE'));
+            that.handler.state = states.START;
+            that.emitWithState(':responseReady');
+        });
     },
     'Unhandled': function() {
         this.response
