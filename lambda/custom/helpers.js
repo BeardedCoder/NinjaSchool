@@ -28,6 +28,11 @@ exports.getActivity = function(speechOutput, stage) {
     return speechOutput;
 };
 
+exports.getRoundsToRankUp = function(stage) {
+    var rounds = data.rounds;
+    return rounds + stage;
+}
+
 exports.getStage = function(wins) {
     stage = (wins / data.rounds) + 1;
     if(stage > data.stages) {

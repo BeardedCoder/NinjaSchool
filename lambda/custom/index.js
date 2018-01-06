@@ -71,8 +71,12 @@ const startSessionHandlers = Alexa.CreateStateHandler(states.START, {
             .then(function(data) {
 
                 var stage = data.data.stage;
+                var wins = data.data.hasOwnProperty('wins') ? data.data.wins : 0;
+
                 that.attributes['stage'] = stage;
-                console.log(stage);
+                that.attributes['wins'] = wins;
+
+                console.log(stage, wins);
                 name = helpers.getRankWithName(stage, name)
 
                 say = 'WELCOME_BACK_NAME';
@@ -123,7 +127,7 @@ const trainingSessionHandlers = Alexa.CreateStateHandler(states.TRAINING, {
         var wins = this.attributes['wins'];
         var failed = this.attributes['fail'];
 
-        var roundsToComplete = data.rounds;
+        var roundsToComplete = helpers.getRoundsToRankUp(stage);
         var maxStage = data.stages;
 
         if(!failed && wins > 0 && wins % roundsToComplete == 0 && stage != maxStage) {
@@ -141,6 +145,8 @@ const trainingSessionHandlers = Alexa.CreateStateHandler(states.TRAINING, {
                 say += 'You have earned the rank of ' + helpers.getRank(stage) + '. ';
                 say += 'Congratulations ' + helpers.getRankWithName(stage, name) + '! ';
                 say += 'Let\'s move on to your next task. ';
+
+                this.attributes['wins'] = 0;
             }
             this.attributes['stage'] = stage;
         }
@@ -156,10 +162,18 @@ const trainingSessionHandlers = Alexa.CreateStateHandler(states.TRAINING, {
         this.emit(':responseReady');
     },
     'AMAZON.YesIntent': function() {
-        console.log('YesIntent', this.handler.state)
+
         this.attributes['wins']++;
+
+        var wins = this.attributes['wins'];
+        var stage = this.attributes['stage'];
+
+        var roundsLeft = helpers.getRoundsToRankUp(stage) - wins;
         var speechCon = helpers.getSpeechCon(true);
-        var say = speechCon + ' Let\'s move on to your next task. ';
+
+        var say = speechCon;
+        say += ' You only have ' + roundsLeft + ' tasks to complete before you achieve your next rank!';
+        say += ' Let\'s move on to your next task. ';
         this.emitWithState('TrainingIntent', say);
     },
     'AMAZON.NoIntent': function() {
@@ -201,7 +215,8 @@ const trainingSessionHandlers = Alexa.CreateStateHandler(states.TRAINING, {
         var name = this.attributes['name'];
         var data = {
             'name': name,
-            'stage': this.attributes['stage']
+            'stage': this.attributes['stage'],
+            'wins': this.attributes['wins']
         };
 
         var that = this;
