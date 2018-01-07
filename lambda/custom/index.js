@@ -215,10 +215,9 @@ const trainingSessionHandlers = Alexa.CreateStateHandler(states.TRAINING, {
         var stage = this.attributes['stage'];
 
         var roundsLeft = helpers.getRoundsToRankUp(stage) - wins;
-        var speechCon = helpers.getSpeechCon(true);
 
-        var say = speechCon;
-        var taskWord = 'tasks';;
+        var say = helpers.getSpeechCon(true);;
+        var taskWord = 'tasks';
 
         if(roundsLeft === 1) {
             taskWord = 'task';
@@ -231,9 +230,9 @@ const trainingSessionHandlers = Alexa.CreateStateHandler(states.TRAINING, {
     'AMAZON.NoIntent': function() {
         this.attributes['fail'] = true;
 
-        var speechCon = helpers.getSpeechCon(false);
+        var say = helpers.getSpeechCon(false);
 
-        var say = speechCon + ' Do not fear young ninja, it takes many years to become a master. ';
+        say += speechCon + ' Do not fear young ninja, it takes many years to become a master. ';
         say += 'Let\'s move on to your next task. ';
         this.emitWithState('TrainingIntent', say);
     },
