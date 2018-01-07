@@ -44,7 +44,6 @@ const states = {
 
 const newSessionHandlers = {
     'NewSession': function() {
-        console.log('new-NewSession');
         databaseHelper.createTable();
 
         this.handler.state = states.START;
@@ -54,7 +53,6 @@ const newSessionHandlers = {
 
 const startSessionHandlers = Alexa.CreateStateHandler(states.START, {
     'NewSession': function() {
-        console.log('start-NewSession');
         this.attributes['wins'] = 0;
         this.attributes['fail'] = false;
         this.attributes['stage'] = 1;
@@ -78,7 +76,6 @@ const startSessionHandlers = Alexa.CreateStateHandler(states.START, {
         this.emit(':responseReady');
     },
     'Unhandled': function() {
-        console.log('start-Unhandled');
         this.response
             .speak('I\'m sorry, I don\'t understand. ')
             .listen('Try again please.');
@@ -88,20 +85,17 @@ const startSessionHandlers = Alexa.CreateStateHandler(states.START, {
 
 const nameSessionHandlers = Alexa.CreateStateHandler(states.NAME, {
     'NewSession': function () {
-        console.log('name-NewSession');
-        this.emit('NewSession'); // Uses the handler in newSessionHandlers
+        this.emit('NewSession');
     },
     'MyNameIsIntent': function () {
         var userId = this.event.context.System.user.userId;
         var name = this.event.request.intent.slots.name.value;
-        console.log('MyNameIsIntent');
 
         if(!name || name.length === 0 ) {
             this.handler.state = states.NAME;
             this.emitWithState('AMAZON.HelpIntent');
         } else {
 
-            console.log('name is there: ', name);
             name = name.charAt(0).toUpperCase() + name.slice(1);
             this.attributes['name'] = name;
 
@@ -117,7 +111,6 @@ const nameSessionHandlers = Alexa.CreateStateHandler(states.NAME, {
                     that.attributes['stage'] = stage;
                     that.attributes['wins'] = wins;
 
-                    console.log(stage, wins);
                     name = helpers.getRankWithName(stage, name)
 
                     say = 'WELCOME_BACK_NAME';
@@ -155,7 +148,6 @@ const nameSessionHandlers = Alexa.CreateStateHandler(states.NAME, {
         this.emit(':responseReady');
     },
     'Unhandled': function() {
-        console.log('name-Unhandled');
         this.response
             .speak('I\'m sorry, I don\'t understand. ')
             .listen('Try again please.');
@@ -165,13 +157,11 @@ const nameSessionHandlers = Alexa.CreateStateHandler(states.NAME, {
 
 const trainingSessionHandlers = Alexa.CreateStateHandler(states.TRAINING, {
     'NewSession': function () {
-        this.emit('NewSession'); // Uses the handler in newSessionHandlers
+        this.emit('NewSession');
     },
     'TrainingIntent': function(say) {
-        console.log('TrainingIntent', this.handler.state)
         var name = this.attributes['name'];
         var stage = this.attributes['stage'];
-        console.log(stage);
         var wins = this.attributes['wins'];
         var failed = this.attributes['fail'];
 
@@ -207,11 +197,11 @@ const trainingSessionHandlers = Alexa.CreateStateHandler(states.TRAINING, {
 
         say = helpers.getActivity(say, stage);
 
-        say += 'Did you complete your task successfully ' + helpers.getRankWithName(stage, name) + '?';
+        var query = 'Did you complete your task successfully ' + helpers.getRankWithName(stage, name) + '?';
 
         this.response
-            .speak(say)
-            .listen(say);
+            .speak(say + query)
+            .listen(query);
         this.emit(':responseReady');
     },
     'AMAZON.YesIntent': function() {
@@ -236,9 +226,10 @@ const trainingSessionHandlers = Alexa.CreateStateHandler(states.TRAINING, {
         this.emitWithState('TrainingIntent', say);
     },
     'AMAZON.NoIntent': function() {
-        console.log('NoIntent', this.handler.state)
         this.attributes['fail'] = true;
+
         var speechCon = helpers.getSpeechCon(false);
+
         var say = speechCon + ' Do not fear young ninja, it takes many years to become a master. ';
         say += 'Let\'s move on to your next task. ';
         this.emitWithState('TrainingIntent', say);
@@ -273,7 +264,6 @@ function cancelTraining() {
     databaseHelper.storeData(userId, name, data)
         .then(
             function(result) {
-                console.log('data written', result);
                 return result;
             })
         .catch( function(error) {} )
