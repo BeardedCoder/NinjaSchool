@@ -67,8 +67,8 @@ module.exports = {
             },
             {
                 'scene': 'A ninja must be like the wind.',
-                'task': 'Spin in a cirlce like a tornado {reps} times.',
-                'taskSingular': 'Spin in a cirlce like a tornado {reps} time.'
+                'task': 'Spin in a circle like a tornado {reps} times.',
+                'taskSingular': 'Spin in a circle like a tornado {reps} time.'
             }
         ],
         3: [
