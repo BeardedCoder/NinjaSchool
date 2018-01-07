@@ -25,6 +25,7 @@ const languageStrings = {
         'translation': {
             'TITLE': "Ninja School",
             'WELCOME_LAUNCH': "Welcome to Ninja School!. <audio src='" + data.songs['intro'] + "' /> Before we start your training, what is your name young master?",
+            'ASK_NAME': 'What is your name young master?',
             'WELCOME_NAME': "Welcome ninja<break time='5ms'/> %s! Before we begin make sure your training space is clean. A good ninja always ensures a clean training room. <audio src='" + data.songs['cleaning'] + "' /> I will give you training tasks to complete to enhance your ninja skills. When you are ready to begin, say begin training. ",
             'WELCOME_BACK_NAME': "Welcome back %s! Is your training area clean? A good ninja always ensures a clean training room. <audio src='" + data.songs['cleaning'] + "' /> When you are ready to begin, say begin training. ",
             'BEGIN_TRAINING': 'When you are ready to begin, say begin training. ',
@@ -58,7 +59,9 @@ const startSessionHandlers = Alexa.CreateStateHandler(states.START, {
         this.attributes['stage'] = 1;
 
         this.handler.state = states.NAME;
-        this.response.speak(this.t('WELCOME_LAUNCH')).listen();
+        this.response
+            .speak(this.t('WELCOME_LAUNCH'))
+            .listen(this.t('ASK_NAME'));
         this.emit(':responseReady');
     },
     "AMAZON.HelpIntent": function() {
@@ -235,11 +238,9 @@ const trainingSessionHandlers = Alexa.CreateStateHandler(states.TRAINING, {
         this.emitWithState('TrainingIntent', say);
     },
     "AMAZON.CancelIntent": function() {
-
         cancelTraining.call(this);
     },
     "AMAZON.StopIntent": function() {
-
         cancelTraining.call(this);
     },
     'Unhandled': function() {
@@ -270,7 +271,6 @@ function cancelTraining() {
         .finally(function() {
 
             that.response.speak(that.t('BYE_MESSAGE'));
-            that.handler.state = states.START;
-            that.emitWithState(':responseReady');
+            that.emit(':responseReady');
         });
 };
