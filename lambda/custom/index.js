@@ -25,7 +25,7 @@ const languageStrings = {
         'translation': {
             'TITLE': "Ninja School",
             'WELCOME_LAUNCH': "Welcome to Ninja School!. <audio src='" + data.songs['intro'] + "' /> Before we start your training, what is your name young master?",
-            'WELCOME_NAME': "Welcome ninja<break time='5ms'/> %s! Before we begin make sure your training space is clean. A good ninja always ensures a clean training room. <audio src='" + data.songs['cleaning'] + "' /> When you are ready to begin, say begin training. ",
+            'WELCOME_NAME': "Welcome ninja<break time='5ms'/> %s! Before we begin make sure your training space is clean. A good ninja always ensures a clean training room. <audio src='" + data.songs['cleaning'] + "' /> I will give you training tasks to complete to enhance your ninja skills. When you are ready to begin, say begin training. ",
             'WELCOME_BACK_NAME': "Welcome back %s! Is your training area clean? A good ninja always ensures a clean training room. <audio src='" + data.songs['cleaning'] + "' /> When you are ready to begin, say begin training. ",
             'BEGIN_TRAINING': 'When you are ready to begin, say begin training. ',
             'HELP_MESSAGE': "You can try: 'start Ninja School' or 'Alexa, ask Ninja School to start'",
