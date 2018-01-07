@@ -25,18 +25,6 @@
                     "samples": []
                 },
                 {
-                    "name": "NewGameIntent",
-                    "samples": [
-                        "start",
-                        "start training",
-                        "let's play a game",
-                        "start over",
-                        "let's start training",
-                        "start again",
-                        "restart"
-                    ]
-                },
-                {
                     "name":"MyNameIsIntent",
                     "slots":[
                         {
