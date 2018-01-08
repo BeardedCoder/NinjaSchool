@@ -5,7 +5,7 @@ const data = require('./data.js');
 exports.getActivity = function(speechOutput, stage) {
 
     var activityNumber = getRandom(0, data.tasks[stage].length - 1);
-    var repetitions = getRandom(1, 5);
+    var repetitions = getRandom(1, 5) + stage;
 
     var task;
 
