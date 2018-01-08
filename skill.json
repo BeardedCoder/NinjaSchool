@@ -8,17 +8,24 @@
             "Alexa, open Ninja School",
             "Alexa, start Ninja School"
           ],
+          "keywords": [
+            "kids",
+            "ninja",
+            "exercise",
+            "active games"
+          ],
           "name": "Ninja School",
           "smallIconUri": "https://s3.amazonaws.com/ninja-school/ninjaSchoolIconSmall.png",
           "largeIconUri": "https://s3.amazonaws.com/ninja-school/ninjaSchoolIcon.png",
           "description": "Have you ever wanted to be a ninja? Come and join Ninja School! You will complete a series of tasks on your way to becoming a ninja master. Leap! Crawl! Spin! Be stealthy! As your skills progress you will climb the ranks and gain new titles! Begin your training today!\n\nFor the parents/guardians:\nThis skill will engage your child by providing them with fun and exciting tasks to complete on their path to becoming a Ninja Warrior! Tasks include physical activities and make-believe. As your child accomplishes more they will gain new ranks! "
         }
       },
-      "isAvailableWorldwide": true,
-      "testingInstructions": "Sample Testing Instructions.",
+      "isAvailableWorldwide": false,
+      "testingInstructions": "No special requirements. Start skill and follow prompts.",
       "category": "CHILDRENS_GAMES",
       "distributionCountries": [
-        "US"
+        "US",
+        "CA"
       ]
     },
     "apis": {
