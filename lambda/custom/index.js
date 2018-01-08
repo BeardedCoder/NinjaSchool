@@ -232,7 +232,7 @@ const trainingSessionHandlers = Alexa.CreateStateHandler(states.TRAINING, {
 
         var say = helpers.getSpeechCon(false);
 
-        say += speechCon + ' Do not fear young ninja, it takes many years to become a master. ';
+        say += ' Do not fear young ninja, it takes many years to become a master. ';
         say += 'Let\'s move on to your next task. ';
         this.emitWithState('TrainingIntent', say);
     },
