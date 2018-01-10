@@ -9,7 +9,7 @@ const databaseHelper = new DatabaseHelper();
 
 exports.handler = function(event, context) {
     var alexa = Alexa.handler(event, context);
-    alexa.appId = 'amzn1.ask.skill.e8fec4fe-e282-4784-a3c2-838a9baa64ed'
+    alexa.appId = ''
     alexa.resources = languageStrings;
     alexa.registerHandlers(
         newSessionHandlers,
